@@ -52,4 +52,6 @@
     <string name="create_counter_disclaimer">Give it a name. Creative block? See examples.</string>
     <string name="delete_x_question">Delete "%s"?</string>
     <string name="n_per_counter_name">%d × %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
