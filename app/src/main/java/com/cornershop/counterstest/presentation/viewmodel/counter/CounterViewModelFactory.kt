@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.cornershop.counterstest.domain.usecase.counter.ICounterUseCase
-import java.lang.Exception
 
 @Suppress("UNCHECKED_CAST")
 class CounterViewModelFactory(private val iCounterUseCase: ICounterUseCase): ViewModelProvider.Factory {

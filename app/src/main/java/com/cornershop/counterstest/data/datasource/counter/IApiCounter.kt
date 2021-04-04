@@ -18,16 +18,16 @@ interface IApiCounter {
 
     @POST(WS_POST_INC_COUNTER)
     suspend fun incrementCounter(
-        @Body id: String
+        @Body id: Map<String, String>
     ): List<Counter>
 
     @POST(WS_POST_DEC_COUNTER)
     suspend fun decrementCounter(
-        @Body id: String
+        @Body id: Map<String, String>
     ): List<Counter>
 
     @DELETE(WS_DELETE_COUNTER)
     suspend fun deleteCounter(
-        @Body id: String
+        @Body id: Map<String, String>
     ): List<Counter>
 }

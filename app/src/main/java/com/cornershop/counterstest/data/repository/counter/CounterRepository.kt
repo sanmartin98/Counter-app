@@ -1,7 +1,6 @@
 package com.cornershop.counterstest.data.repository.counter
 
 import com.cornershop.counterstest.data.config.Resource
-import com.cornershop.counterstest.data.datasource.counter.CounterDataSource
 import com.cornershop.counterstest.data.datasource.counter.ICounterDataSource
 import com.cornershop.counterstest.domain.model.counter.Counter
 
@@ -12,12 +11,12 @@ class CounterRepository(private val iCounterDataSource: ICounterDataSource) : IC
     override suspend fun createCounter(counter: Counter): Resource<List<Counter>> =
         iCounterDataSource.createCounter(counter = counter)
 
-    override suspend fun incrementCounter(id: String): Resource<List<Counter>> =
+    override suspend fun incrementCounter(id: Map<String, String>): Resource<List<Counter>> =
         iCounterDataSource.incrementCounter(id = id)
 
-    override suspend fun decrementCounter(id: String): Resource<List<Counter>> =
+    override suspend fun decrementCounter(id: Map<String, String>): Resource<List<Counter>> =
         iCounterDataSource.decrementCounter(id = id)
 
-    override suspend fun deleteCounter(id: String): Resource<List<Counter>> =
+    override suspend fun deleteCounter(id: Map<String, String>): Resource<List<Counter>> =
         iCounterDataSource.deleteCounter(id = id)
 }

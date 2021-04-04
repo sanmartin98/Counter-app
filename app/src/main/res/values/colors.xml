@@ -7,4 +7,6 @@
     <color name="light_gray">#DCDCDF</color>
 
     <color name="welcome_background">#F9F9F9</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

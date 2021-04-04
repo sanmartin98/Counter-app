@@ -1,13 +1,11 @@
 package com.cornershop.counterstest.presentation.viewmodel.counter
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.cornershop.counterstest.data.config.Resource
-import com.cornershop.counterstest.data.repository.counter.ICounterRepository
 import com.cornershop.counterstest.domain.model.counter.Counter
 import com.cornershop.counterstest.domain.usecase.counter.ICounterUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.Exception
 
 class CounterViewModel(private val iCounterUseCase: ICounterUseCase) : ViewModel() {
 
@@ -29,7 +27,7 @@ class CounterViewModel(private val iCounterUseCase: ICounterUseCase) : ViewModel
         }
     }
 
-    fun incrementCounter(id: String) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
+    fun incrementCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
         emit(Resource.Loading())
         try {
             emit(iCounterUseCase.incrementCounter(id = id))
@@ -38,7 +36,7 @@ class CounterViewModel(private val iCounterUseCase: ICounterUseCase) : ViewModel
         }
     }
 
-    fun decrementCounter(id: String) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
+    fun decrementCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
         emit(Resource.Loading())
         try {
             emit(iCounterUseCase.decrementCounter(id = id))
@@ -47,7 +45,7 @@ class CounterViewModel(private val iCounterUseCase: ICounterUseCase) : ViewModel
         }
     }
 
-    fun deleteCounter(id: String) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
+    fun deleteCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
         emit(Resource.Loading())
         try {
             emit(iCounterUseCase.deleteCounter(id = id))

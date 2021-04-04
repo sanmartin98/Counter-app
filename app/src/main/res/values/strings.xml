@@ -37,11 +37,11 @@
     <string name="error_deleting_counter_title">Couldn’t delete the counter</string>
     <string name="connection_error_description">The Internet connection appears to be offline.</string>
     <string name="generic_error_description">There has been a problem.</string>
-    <string name="retry">Retry</string>
+    <string name="retry_load_counters">RETRY</string>
     <string name="save">Save</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="dismiss">Dismiss</string>
+    <string name="dismiss">DISMISS</string>
     <string name="share">Share</string>
     <string name="examples">Examples</string>
     <string name="examples_description">Select an example to add it to your counters.</string>
