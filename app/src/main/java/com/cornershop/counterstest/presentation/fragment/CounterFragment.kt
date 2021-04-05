@@ -45,6 +45,8 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.searchView.setOnQueryTextListener(this)
+        binding.swipeRefresh.setColorSchemeResources(R.color.orange)
+        binding.swipeRefresh.setOnRefreshListener { getCounters() }
         binding.includeLayoutErrorLoadCounters.textViewRetryLoadCounters.setOnClickListener {
             getCounters()
         }
@@ -55,13 +57,14 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
         counterViewModel.getCounters().observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                    binding.includeProgressBar.progressBar.visibility = View.VISIBLE
+                    binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.VISIBLE
                     binding.constraintLayoutCounters.visibility = View.GONE
                     binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
                         View.GONE
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Success -> {
-                    binding.includeProgressBar.progressBar.visibility = View.GONE
+                    binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                     binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
                         View.GONE
                     binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
@@ -75,7 +78,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     }
                 }
                 is Resource.Failure -> {
-                    binding.includeProgressBar.progressBar.visibility = View.GONE
+                    binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                     binding.constraintLayoutCounters.visibility = View.GONE
                     binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
                         View.GONE
@@ -105,14 +108,14 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .observe(viewLifecycleOwner, {
                 when (it) {
                     is Resource.Loading -> {
-                        binding.includeProgressBar.progressBar.visibility = View.VISIBLE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
-                        binding.includeProgressBar.progressBar.visibility = View.GONE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         counterAdapter.setCounterList(it.data)
                     }
                     is Resource.Failure -> {
-                        binding.includeProgressBar.progressBar.visibility = View.GONE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         showErrorUpdateCounterAlertDialog(
                             counter.count!! + 1,
                             counter,
@@ -128,14 +131,14 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .observe(viewLifecycleOwner, {
                 when (it) {
                     is Resource.Loading -> {
-                        binding.includeProgressBar.progressBar.visibility = View.VISIBLE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
-                        binding.includeProgressBar.progressBar.visibility = View.GONE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         counterAdapter.setCounterList(it.data)
                     }
                     is Resource.Failure -> {
-                        binding.includeProgressBar.progressBar.visibility = View.GONE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         showErrorUpdateCounterAlertDialog(
                             counter.count!! - 1,
                             counter,
@@ -178,8 +181,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if(newText!!.isNotEmpty()) {
-            val sizeListCounter = counterAdapter.filter(newText)
+            val sizeListCounter = counterAdapter.filter(newText!!)
             if (sizeListCounter == 0) {
                 binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility =
                     View.VISIBLE
@@ -189,7 +191,6 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     View.GONE
                 binding.constraintLayoutCounters.visibility = View.VISIBLE
             }
-        }
         return false
     }
 }
