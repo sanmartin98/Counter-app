@@ -8,10 +8,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cornershop.counterstest.R
 import com.cornershop.counterstest.data.config.Resource
@@ -32,6 +34,12 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
         super.onCreate(savedInstanceState)
         counterAdapter = CounterAdapter()
         counterAdapter.iConnectAdapterModifyCounters = this
+
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        })
     }
 
     override fun onCreateView(
@@ -47,6 +55,9 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
         binding.searchView.setOnQueryTextListener(this)
         binding.swipeRefresh.setColorSchemeResources(R.color.orange)
         binding.swipeRefresh.setOnRefreshListener { getCounters() }
+        binding.buttonAddCounter.setOnClickListener {
+            findNavController().navigate(R.id.action_counterFragment_to_createCounterFragment)
+        }
         binding.includeLayoutErrorLoadCounters.textViewRetryLoadCounters.setOnClickListener {
             getCounters()
         }
@@ -108,7 +119,8 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .observe(viewLifecycleOwner, {
                 when (it) {
                     is Resource.Loading -> {
-                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.VISIBLE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility =
+                            View.VISIBLE
                     }
                     is Resource.Success -> {
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
@@ -131,7 +143,8 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .observe(viewLifecycleOwner, {
                 when (it) {
                     is Resource.Loading -> {
-                        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.VISIBLE
+                        binding.includeProgressBar.relativeLayoutProgressBar.visibility =
+                            View.VISIBLE
                     }
                     is Resource.Success -> {
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
@@ -181,16 +194,16 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-            val sizeListCounter = counterAdapter.filter(newText!!)
-            if (sizeListCounter == 0) {
-                binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility =
-                    View.VISIBLE
-                binding.constraintLayoutCounters.visibility = View.GONE
-            } else if (binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility == View.VISIBLE) {
-                binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility =
-                    View.GONE
-                binding.constraintLayoutCounters.visibility = View.VISIBLE
-            }
+        val sizeListCounter = counterAdapter.filter(newText!!)
+        if (sizeListCounter == 0) {
+            binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility =
+                View.VISIBLE
+            binding.constraintLayoutCounters.visibility = View.GONE
+        } else if (binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility == View.VISIBLE) {
+            binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility =
+                View.GONE
+            binding.constraintLayoutCounters.visibility = View.VISIBLE
+        }
         return false
     }
 }

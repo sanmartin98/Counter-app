@@ -13,7 +13,7 @@ interface IApiCounter {
 
     @POST(WS_POST_COUNTER)
     suspend fun createCounter(
-        @Body counter: Counter
+        @Body titleCounter: Map<String, String>
     ): List<Counter>
 
     @POST(WS_POST_INC_COUNTER)

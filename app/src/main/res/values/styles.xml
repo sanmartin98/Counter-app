@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="style_hint_orange_text_input_layout" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/orange</item>
+        <item name="hintTextAppearance">@style/style_regular_orange_text_hint</item>
+    </style>
+
+    <style name="style_regular_orange_text_hint">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/orange</item>
+    </style>
+
+    <style name="style_hint_search_view">
+        <item name="android:textColorHint">@color/gray</item>
+    </style>
+
+</resources>

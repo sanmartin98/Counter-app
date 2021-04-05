@@ -10,8 +10,8 @@ class CounterDataSource : ICounterDataSource {
     override suspend fun getCounters(): Resource<List<Counter>> =
         Resource.Success(retrofitInstance.getCounter())
 
-    override suspend fun createCounter(counter: Counter): Resource<List<Counter>> =
-        Resource.Success(retrofitInstance.createCounter(counter = counter))
+    override suspend fun createCounter(titleCounter: Map<String, String>): Resource<List<Counter>> =
+        Resource.Success(retrofitInstance.createCounter(titleCounter = titleCounter))
 
     override suspend fun incrementCounter(id: Map<String, String>): Resource<List<Counter>> =
         Resource.Success(retrofitInstance.incrementCounter(id = id))

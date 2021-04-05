@@ -22,6 +22,7 @@
                     android:id="@+id/searchView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:theme="@style/style_hint_search_view"
                     android:background="@drawable/rounded_search_view"
                     android:iconifiedByDefault="false"
                     android:queryHint="@string/search_counters"

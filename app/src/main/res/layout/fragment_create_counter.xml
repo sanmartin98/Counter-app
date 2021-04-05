@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="16dp"
         tools:context="com.cornershop.counterstest.presentation.fragment.CreateCounterFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+            <ImageView
+                android:id="@+id/image_view_close_create_counter"
+                android:layout_width="16dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_close"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/text_view_title_create_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/create_counter"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/image_view_close_create_counter"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/text_view_save_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="@string/save"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/orange"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar_create_counter"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:indeterminate="true"
+                android:progress="0"
+                android:visibility="gone"
+                android:indeterminateDrawable="@drawable/progress_bar_orange"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_create_counter_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/counter_name_label"
+            style="@style/style_hint_orange_text_input_layout"
+            android:layout_marginTop="16dp"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_toolbar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_input_create_counter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/counter_name_hint"
+                android:theme="@style/MyEditText"/>
+
+            <requestFocus/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_view_help_create_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_counter_disclaimer"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_create_counter_container"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

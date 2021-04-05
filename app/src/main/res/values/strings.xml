@@ -35,10 +35,11 @@
     <string name="error_creating_counter_title">Couldn’t create the counter</string>
     <string name="error_updating_counter_title">Couldn’t update the “%s” counter to %d</string>
     <string name="error_deleting_counter_title">Couldn’t delete the counter</string>
+    <string name="error_write_name_counter">Please write the name of the counter</string>
     <string name="connection_error_description">The Internet connection appears to be offline.</string>
     <string name="generic_error_description">There has been a problem.</string>
     <string name="retry_load_counters">RETRY</string>
-    <string name="save">Save</string>
+    <string name="save">SAVE</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="dismiss">DISMISS</string>

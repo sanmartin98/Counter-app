@@ -18,38 +18,41 @@ class CounterViewModel(private val iCounterUseCase: ICounterUseCase) : ViewModel
         }
     }
 
-    fun createCounter(counter: Counter) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
-        emit(Resource.Loading())
-        try {
-            emit(iCounterUseCase.createCounter(counter = counter))
-        } catch (ex: Exception){
-            emit(Resource.Failure(exception = ex))
+    fun createCounter(titleCounter: Map<String, String>) =
+        liveData<Resource<List<Counter>>>(Dispatchers.IO) {
+            emit(Resource.Loading())
+            try {
+                emit(iCounterUseCase.createCounter(titleCounter = titleCounter))
+            } catch (ex: Exception) {
+                emit(Resource.Failure(exception = ex))
+            }
         }
-    }
 
-    fun incrementCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
-        emit(Resource.Loading())
-        try {
-            emit(iCounterUseCase.incrementCounter(id = id))
-        } catch (ex: Exception){
-            emit(Resource.Failure(exception = ex))
+    fun incrementCounter(id: Map<String, String>) =
+        liveData<Resource<List<Counter>>>(Dispatchers.IO) {
+            emit(Resource.Loading())
+            try {
+                emit(iCounterUseCase.incrementCounter(id = id))
+            } catch (ex: Exception) {
+                emit(Resource.Failure(exception = ex))
+            }
         }
-    }
 
-    fun decrementCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
-        emit(Resource.Loading())
-        try {
-            emit(iCounterUseCase.decrementCounter(id = id))
-        } catch (ex: Exception){
-            emit(Resource.Failure(exception = ex))
+    fun decrementCounter(id: Map<String, String>) =
+        liveData<Resource<List<Counter>>>(Dispatchers.IO) {
+            emit(Resource.Loading())
+            try {
+                emit(iCounterUseCase.decrementCounter(id = id))
+            } catch (ex: Exception) {
+                emit(Resource.Failure(exception = ex))
+            }
         }
-    }
 
-    fun deleteCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO){
+    fun deleteCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
             emit(iCounterUseCase.deleteCounter(id = id))
-        } catch (ex: Exception){
+        } catch (ex: Exception) {
             emit(Resource.Failure(exception = ex))
         }
     }

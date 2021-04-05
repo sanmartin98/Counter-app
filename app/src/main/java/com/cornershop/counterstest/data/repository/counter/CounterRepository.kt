@@ -8,8 +8,8 @@ class CounterRepository(private val iCounterDataSource: ICounterDataSource) : IC
     override suspend fun getCounters(): Resource<List<Counter>> =
         iCounterDataSource.getCounters()
 
-    override suspend fun createCounter(counter: Counter): Resource<List<Counter>> =
-        iCounterDataSource.createCounter(counter = counter)
+    override suspend fun createCounter(titleCounter: Map<String, String>): Resource<List<Counter>> =
+        iCounterDataSource.createCounter(titleCounter = titleCounter)
 
     override suspend fun incrementCounter(id: Map<String, String>): Resource<List<Counter>> =
         iCounterDataSource.incrementCounter(id = id)
