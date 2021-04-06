@@ -9,4 +9,5 @@
     <color name="welcome_background">#F9F9F9</color>
 
     <color name="transparent">#00000000</color>
+    <color name="orange_select">#FDC97F</color>
 </resources>

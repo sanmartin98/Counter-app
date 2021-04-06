@@ -11,19 +11,22 @@
         android:focusable="true"
         app:cardBackgroundColor="@color/transparent"
         app:cardElevation="0dp"
-        android:layout_marginBottom="32dp">
+        android:layout_marginBottom="32dp"
+        app:cardCornerRadius="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:background="@color/transparent"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/text_view_title_counter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="9.5"
+                android:layout_weight="8"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -32,9 +35,11 @@
                 tools:text="Cups of coffee" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/constraint_layout_modify_counters"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5">
+                android:layout_weight="2"
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/imaga_view_less_counter"
@@ -70,6 +75,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/image_view_counter_selected"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check"
+                android:visibility="gone"
+                android:layout_weight="2" />
 
         </LinearLayout>
 

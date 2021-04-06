@@ -1,6 +1,7 @@
 package com.cornershop.counterstest.presentation.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -44,10 +45,30 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RowCounterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Counter) {
             binding.textViewTitleCounter.text = item.title
-            binding.textViewCounter.text = item.count.toString()
-            binding.imageViewPlusCounter.setOnClickListener {
-                iConnectAdapterModifyCounters.increaseCounter(item)
+            if (item.isSelected!!) {
+                binding.imageViewCounterSelected.visibility = View.VISIBLE
+                binding.constraintLayoutModifyCounters.visibility = View.GONE
+                binding.cardViewCounter.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.orange_select
+                    )
+                )
+            } else {
+                binding.imageViewCounterSelected.visibility = View.GONE
+                binding.constraintLayoutModifyCounters.visibility = View.VISIBLE
+                binding.cardViewCounter.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.transparent
+                    )
+                )
+                binding.textViewCounter.text = item.count.toString()
+                binding.imageViewPlusCounter.setOnClickListener {
+                    iConnectAdapterModifyCounters.increaseCounter(item)
+                }
             }
+
             if (item.count!! > 0) {
                 binding.imagaViewLessCounter.setColorFilter(
                     ContextCompat.getColor(
