@@ -16,7 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cornershop.counterstest.R
-import com.cornershop.counterstest.data.config.Resource
+import com.cornershop.counterstest.data.dataaccess.Resource
 import com.cornershop.counterstest.databinding.FragmentCounterBinding
 import com.cornershop.counterstest.domain.model.counter.Counter
 import com.cornershop.counterstest.presentation.adapter.CounterAdapter
@@ -70,16 +70,13 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                 is Resource.Loading -> {
                     binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.VISIBLE
                     binding.constraintLayoutCounters.visibility = View.GONE
-                    binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
-                        View.GONE
+                    hideAlertMessageViews()
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Success -> {
                     binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
-                    binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
-                        View.GONE
-                    binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
-                        View.GONE
+                    hideAlertMessageViews()
+                    counterViewModel.updateCountersLocal(it.data)
                     if (it.data.isEmpty()) {
                         binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
                             View.VISIBLE
@@ -89,15 +86,32 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     }
                 }
                 is Resource.Failure -> {
-                    binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
-                    binding.constraintLayoutCounters.visibility = View.GONE
-                    binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
-                        View.GONE
-                    binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
-                        View.VISIBLE
+                    getCountersLocal()
                 }
             }
         })
+    }
+
+    private fun getCountersLocal() {
+        val listCounters = counterViewModel.getCountersLocal()
+        binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
+        hideAlertMessageViews()
+        if (listCounters.isEmpty()) {
+            binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
+                View.VISIBLE
+        } else {
+            setTotalItemsAndTimes(counterList = listCounters)
+            setCounterAdapter(counterList = listCounters)
+        }
+    }
+
+    private fun hideAlertMessageViews() {
+        binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
+            View.GONE
+        binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
+            View.GONE
+        binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility =
+            View.GONE
     }
 
     @SuppressLint("SetTextI18n")
@@ -194,8 +208,8 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        val sizeListCounter = counterAdapter.filter(newText!!)
-        if (sizeListCounter == 0) {
+        val sizeListCounterFilter = counterAdapter.filter(newText!!)
+        if (sizeListCounterFilter == 0) {
             binding.includeLayoutNoResultsCounters.constraintLayoutNoResultsCounters.visibility =
                 View.VISIBLE
             binding.constraintLayoutCounters.visibility = View.GONE

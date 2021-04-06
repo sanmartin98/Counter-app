@@ -2,7 +2,7 @@ package com.cornershop.counterstest.presentation.viewmodel.counter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.cornershop.counterstest.data.config.Resource
+import com.cornershop.counterstest.data.dataaccess.Resource
 import com.cornershop.counterstest.domain.model.counter.Counter
 import com.cornershop.counterstest.domain.usecase.counter.ICounterUseCase
 import kotlinx.coroutines.Dispatchers
@@ -56,5 +56,10 @@ class CounterViewModel(private val iCounterUseCase: ICounterUseCase) : ViewModel
             emit(Resource.Failure(exception = ex))
         }
     }
+
+    fun updateCountersLocal(listCounters: List<Counter>) =
+        iCounterUseCase.updateCountersLocal(listCounters = listCounters)
+
+    fun getCountersLocal(): List<Counter> = iCounterUseCase.getCountersLocal()
 
 }

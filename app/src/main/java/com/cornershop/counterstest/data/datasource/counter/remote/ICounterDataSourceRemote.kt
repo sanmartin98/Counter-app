@@ -1,9 +1,9 @@
-package com.cornershop.counterstest.data.datasource.counter
+package com.cornershop.counterstest.data.datasource.counter.remote
 
-import com.cornershop.counterstest.data.config.Resource
+import com.cornershop.counterstest.data.dataaccess.Resource
 import com.cornershop.counterstest.domain.model.counter.Counter
 
-interface ICounterDataSource {
+interface ICounterDataSourceRemote {
     suspend fun getCounters(): Resource<List<Counter>>
     suspend fun createCounter(titleCounter: Map<String, String>): Resource<List<Counter>>
     suspend fun incrementCounter(id: Map<String, String>): Resource<List<Counter>>

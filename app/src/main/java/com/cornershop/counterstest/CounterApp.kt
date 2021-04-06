@@ -10,7 +10,7 @@ class CounterApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        injectionContainer = InjectionContainer()
+        injectionContainer = InjectionContainer(this)
     }
 
 }

@@ -8,5 +8,6 @@ data class Counter (
     @SerializedName("title")
     val title: String? = null,
     @SerializedName("count")
-    val count: Int? = null
+    val count: Int? = null,
+    val isSelected: Boolean? = false
 )

@@ -1,10 +1,10 @@
-package com.cornershop.counterstest.data.datasource.counter
+package com.cornershop.counterstest.data.datasource.counter.remote
 
-import com.cornershop.counterstest.data.config.Resource
-import com.cornershop.counterstest.data.config.Retrofit
+import com.cornershop.counterstest.data.dataaccess.Resource
+import com.cornershop.counterstest.data.dataaccess.retrofit.Retrofit
 import com.cornershop.counterstest.domain.model.counter.Counter
 
-class CounterDataSource : ICounterDataSource {
+class CounterDataSourceRemote : ICounterDataSourceRemote {
     private val retrofitInstance = Retrofit().getRetrofitInstance().create(IApiCounter::class.java)
 
     override suspend fun getCounters(): Resource<List<Counter>> =

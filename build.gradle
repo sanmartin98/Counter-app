@@ -3,6 +3,7 @@ buildscript {
     ext.kotlin_version = "1.4.30"
     ext.nav_version = "2.3.4"
     ext.retrofit_version = "2.9.0"
+    ext.room_version = "2.2.6"
     repositories {
         google()
         maven { url "https://plugins.gradle.org/m2/" }

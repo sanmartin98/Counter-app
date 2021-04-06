@@ -1,22 +1,31 @@
 package com.cornershop.counterstest.data.repository.counter
 
-import com.cornershop.counterstest.data.config.Resource
-import com.cornershop.counterstest.data.datasource.counter.ICounterDataSource
+import com.cornershop.counterstest.data.dataaccess.Resource
+import com.cornershop.counterstest.data.datasource.counter.local.ICounterDataSourceLocal
+import com.cornershop.counterstest.data.datasource.counter.remote.ICounterDataSourceRemote
 import com.cornershop.counterstest.domain.model.counter.Counter
 
-class CounterRepository(private val iCounterDataSource: ICounterDataSource) : ICounterRepository {
+class CounterRepository(
+    private val iCounterDataSourceRemote: ICounterDataSourceRemote,
+    private val iCounterDataSourceLocal: ICounterDataSourceLocal
+) : ICounterRepository {
     override suspend fun getCounters(): Resource<List<Counter>> =
-        iCounterDataSource.getCounters()
+        iCounterDataSourceRemote.getCounters()
 
     override suspend fun createCounter(titleCounter: Map<String, String>): Resource<List<Counter>> =
-        iCounterDataSource.createCounter(titleCounter = titleCounter)
+        iCounterDataSourceRemote.createCounter(titleCounter = titleCounter)
 
     override suspend fun incrementCounter(id: Map<String, String>): Resource<List<Counter>> =
-        iCounterDataSource.incrementCounter(id = id)
+        iCounterDataSourceRemote.incrementCounter(id = id)
 
     override suspend fun decrementCounter(id: Map<String, String>): Resource<List<Counter>> =
-        iCounterDataSource.decrementCounter(id = id)
+        iCounterDataSourceRemote.decrementCounter(id = id)
 
     override suspend fun deleteCounter(id: Map<String, String>): Resource<List<Counter>> =
-        iCounterDataSource.deleteCounter(id = id)
+        iCounterDataSourceRemote.deleteCounter(id = id)
+
+    override fun updateCountersLocal(listCounters: List<Counter>) =
+        iCounterDataSourceLocal.updateCountersLocal(listCounters = listCounters)
+
+    override fun getCountersLocal(): List<Counter> = iCounterDataSourceLocal.getCountersLocal()
 }

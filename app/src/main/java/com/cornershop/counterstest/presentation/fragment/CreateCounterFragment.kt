@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.cornershop.counterstest.R
-import com.cornershop.counterstest.data.config.Resource
+import com.cornershop.counterstest.data.dataaccess.Resource
 import com.cornershop.counterstest.databinding.FragmentCreateCounterBinding
 import com.cornershop.counterstest.presentation.viewmodel.counter.CounterViewModel
 

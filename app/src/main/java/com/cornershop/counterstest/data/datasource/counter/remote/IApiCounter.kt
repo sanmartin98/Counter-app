@@ -1,4 +1,4 @@
-package com.cornershop.counterstest.data.datasource.counter
+package com.cornershop.counterstest.data.datasource.counter.remote
 
 import com.cornershop.counterstest.constant.*
 import com.cornershop.counterstest.domain.model.counter.Counter

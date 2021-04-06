@@ -1,4 +1,4 @@
-package com.cornershop.counterstest.data.config
+package com.cornershop.counterstest.data.dataaccess.retrofit
 
 import com.cornershop.counterstest.constant.BASE_URL
 import okhttp3.OkHttpClient
@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit
 
 class Retrofit {
     private var okHttpClient: OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .writeTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
     fun getRetrofitInstance(): Retrofit {

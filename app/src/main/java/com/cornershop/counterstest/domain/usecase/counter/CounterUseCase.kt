@@ -1,10 +1,10 @@
 package com.cornershop.counterstest.domain.usecase.counter
 
-import com.cornershop.counterstest.data.config.Resource
+import com.cornershop.counterstest.data.dataaccess.Resource
 import com.cornershop.counterstest.data.repository.counter.ICounterRepository
 import com.cornershop.counterstest.domain.model.counter.Counter
 
-class CounterUseCase(private val iCounterRepository: ICounterRepository): ICounterUseCase {
+class CounterUseCase(private val iCounterRepository: ICounterRepository) : ICounterUseCase {
     override suspend fun getCounters(): Resource<List<Counter>> =
         iCounterRepository.getCounters()
 
@@ -19,4 +19,9 @@ class CounterUseCase(private val iCounterRepository: ICounterRepository): ICount
 
     override suspend fun deleteCounter(id: Map<String, String>): Resource<List<Counter>> =
         iCounterRepository.deleteCounter(id = id)
+
+    override fun updateCountersLocal(listCounters: List<Counter>) =
+        iCounterRepository.updateCountersLocal(listCounters = listCounters)
+
+    override fun getCountersLocal(): List<Counter> = iCounterRepository.getCountersLocal()
 }

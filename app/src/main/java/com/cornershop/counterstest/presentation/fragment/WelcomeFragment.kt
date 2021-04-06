@@ -27,6 +27,7 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.includeLayoutWelcomeContent?.buttonStart?.setOnClickListener{
+            binding.includeLayoutWelcomeContent!!.buttonStart.isEnabled = false
             findNavController().navigate(R.id.action_welcomeFragment_to_counterFragment)
         }
     }

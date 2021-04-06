@@ -1,4 +1,4 @@
-package com.cornershop.counterstest.data.config
+package com.cornershop.counterstest.data.dataaccess
 
 sealed class Resource<out  T> {
     class Loading<out T>: Resource<T>()
