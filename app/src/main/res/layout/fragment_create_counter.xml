@@ -17,11 +17,12 @@
 
             <ImageView
                 android:id="@+id/image_view_close_create_counter"
-                android:layout_width="16dp"
-                android:layout_height="32dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_close"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
                 android:id="@+id/text_view_title_create_counter"
@@ -33,7 +34,8 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/image_view_close_create_counter"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
                 android:id="@+id/text_view_save_counter"
@@ -44,7 +46,8 @@
                 android:gravity="center"
                 android:textColor="@color/orange"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <ProgressBar
                 android:id="@+id/progress_bar_create_counter"
@@ -55,7 +58,8 @@
                 android:visibility="gone"
                 android:indeterminateDrawable="@drawable/progress_bar_orange"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

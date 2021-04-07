@@ -2,6 +2,7 @@ package com.cornershop.counterstest.presentation.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -29,6 +30,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
     private lateinit var binding: FragmentCounterBinding
     private val counterViewModel: CounterViewModel by activityViewModels()
     private lateinit var counterAdapter: CounterAdapter
+    private var counterList = mutableListOf<Counter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,16 +54,29 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpView()
+        getCounters()
+    }
+
+    private fun setUpView() {
         binding.searchView.setOnQueryTextListener(this)
         binding.swipeRefresh.setColorSchemeResources(R.color.orange)
         binding.swipeRefresh.setOnRefreshListener { getCounters() }
         binding.buttonAddCounter.setOnClickListener {
+            binding.buttonAddCounter.isEnabled = false
             findNavController().navigate(R.id.action_counterFragment_to_createCounterFragment)
         }
         binding.includeLayoutErrorLoadCounters.textViewRetryLoadCounters.setOnClickListener {
             getCounters()
         }
-        getCounters()
+        binding.imageViewCloseSelectCounter.setOnClickListener {
+            counterList.filter { it.isSelected!! }.forEach { it.isSelected = false }
+            counterAdapter.setCounterList(counterList)
+            binding.searchView.visibility = View.VISIBLE
+            binding.constraintLayoutBarSelectedCounter.visibility = View.INVISIBLE
+        }
+        binding.imageViewDeleteCounter.setOnClickListener { showDeleteCounterAlertDialog(counterList.filter { it.isSelected!! }) }
+        binding.imageViewShareCounter.setOnClickListener { shareCounters(counterList.filter { it.isSelected!! }) }
     }
 
     private fun getCounters() {
@@ -81,8 +96,10 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                         binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
                             View.VISIBLE
                     } else {
-                        setTotalItemsAndTimes(counterList = it.data)
-                        setCounterAdapter(counterList = it.data)
+                        counterList.clear()
+                        counterList.addAll(it.data)
+                        setCounterAdapter()
+                        setTotalItemsAndTimes()
                     }
                 }
                 is Resource.Failure -> {
@@ -93,15 +110,16 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
     }
 
     private fun getCountersLocal() {
-        val listCounters = counterViewModel.getCountersLocal()
+        counterList.clear()
+        counterList.addAll(counterViewModel.getCountersLocal())
         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
         hideAlertMessageViews()
-        if (listCounters.isEmpty()) {
+        if (counterList.isEmpty()) {
             binding.includeLayoutErrorLoadCounters.constraintLayoutErrorLoadCounters.visibility =
                 View.VISIBLE
         } else {
-            setTotalItemsAndTimes(counterList = listCounters)
-            setCounterAdapter(counterList = listCounters)
+            setTotalItemsAndTimes()
+            setCounterAdapter()
         }
     }
 
@@ -115,13 +133,12 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setTotalItemsAndTimes(counterList: List<Counter>) {
+    private fun setTotalItemsAndTimes() {
         binding.textViewTotalCounters.text = "${counterList.size} items"
         binding.textViewTotalTimes.text = "${counterList.sumBy { it.count!! }} times"
-
     }
 
-    private fun setCounterAdapter(counterList: List<Counter>) {
+    private fun setCounterAdapter() {
         binding.constraintLayoutCounters.visibility = View.VISIBLE
         binding.reciclerViewCounter.layoutManager = LinearLayoutManager(requireContext())
         binding.reciclerViewCounter.adapter = counterAdapter
@@ -138,7 +155,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     }
                     is Resource.Success -> {
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
-                        counterAdapter.setCounterList(it.data)
+                        updateData(it.data)
                     }
                     is Resource.Failure -> {
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
@@ -162,7 +179,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     }
                     is Resource.Success -> {
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
-                        counterAdapter.setCounterList(it.data)
+                        updateData(it.data)
                     }
                     is Resource.Failure -> {
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
@@ -174,6 +191,81 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     }
                 }
             })
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun selectCounter(counter: Counter) {
+        counterList.find { it.id.equals(counter.id) }?.isSelected = counter.isSelected?.not()
+        counterAdapter.setCounterList(counterList = counterList)
+
+        val sizeSelectedCounterList = counterList.count() { it.isSelected!! }
+        if (sizeSelectedCounterList == 0) {
+            binding.searchView.visibility = View.VISIBLE
+            binding.constraintLayoutBarSelectedCounter.visibility = View.INVISIBLE
+        } else {
+            binding.searchView.visibility = View.INVISIBLE
+            binding.constraintLayoutBarSelectedCounter.visibility = View.VISIBLE
+        }
+        binding.textViewCounterSelected.text = "$sizeSelectedCounterList selected"
+    }
+
+    private fun deleteCounters(counterList: List<Counter>) {
+        val idCountersList = counterList.map { it.id!! }.toList()
+        counterViewModel.deleteCounter(idCounterList = idCountersList).observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    binding.includeProgressBar.relativeLayoutProgressBar.visibility =
+                        View.VISIBLE
+                }
+                is Resource.Success -> {
+                    if (it.data.isEmpty()) {
+                        binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
+                            View.VISIBLE
+                    }
+                    binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
+                    updateData(it.data)
+                    binding.searchView.visibility = View.VISIBLE
+                    binding.constraintLayoutBarSelectedCounter.visibility = View.INVISIBLE
+                }
+                is Resource.Failure -> {
+                    binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
+                    showErrorDeleteCounterAlertDialog()
+                }
+            }
+        })
+    }
+
+    private fun shareCounters(counterList: List<Counter>) {
+        var countersShareListString = ""
+        counterList.map { countersShareListString += "${it.count.toString()} x ${it.title} \r" }
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, countersShareListString)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
+        startActivity(shareIntent)
+    }
+
+    private fun showDeleteCounterAlertDialog(
+        counterList: List<Counter>
+    ) {
+        var countersDeleteListString = ""
+        counterList.map { countersDeleteListString += "\"${it.title}\" " }
+        val builder = AlertDialog.Builder(requireContext())
+            .setCancelable(false)
+            .setTitle("Delete $countersDeleteListString?")
+            .setPositiveButton(getString(R.string.delete)) { _, _ -> deleteCounters(counterList = counterList) }
+            .setNegativeButton(getString(R.string.cancel), null)
+
+        val alert = builder.create()
+        alert.show()
+        alert.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+        alert.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        alert.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
     }
 
     private fun showErrorUpdateCounterAlertDialog(
@@ -201,6 +293,28 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
         alert.getButton(AlertDialog.BUTTON_NEGATIVE)
             .setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+    }
+
+    private fun showErrorDeleteCounterAlertDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+            .setCancelable(false)
+            .setTitle(getString(R.string.error_deleting_counter_title))
+            .setMessage(getString(R.string.connection_error_description))
+            .setPositiveButton(getString(R.string.ok), null)
+
+        val alert = builder.create()
+        alert.show()
+        alert.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+        alert.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+    }
+
+    private fun updateData(data: List<Counter>) {
+        counterList.clear()
+        counterList.addAll(data)
+        counterViewModel.updateCountersLocal(data)
+        counterAdapter.setCounterList(data)
+        setTotalItemsAndTimes()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

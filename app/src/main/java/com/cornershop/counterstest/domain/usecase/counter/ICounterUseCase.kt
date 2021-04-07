@@ -8,7 +8,7 @@ interface ICounterUseCase {
     suspend fun createCounter(titleCounter: Map<String, String>): Resource<List<Counter>>
     suspend fun incrementCounter(id: Map<String, String>): Resource<List<Counter>>
     suspend fun decrementCounter(id: Map<String, String>): Resource<List<Counter>>
-    suspend fun deleteCounter(id: Map<String, String>): Resource<List<Counter>>
+    suspend fun deleteCounter(idCounterList: List<String>): Resource<List<Counter>>
     fun updateCountersLocal(listCounters: List<Counter>)
     fun getCountersLocal(): List<Counter>
 }

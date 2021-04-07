@@ -2,10 +2,7 @@ package com.cornershop.counterstest.data.datasource.counter.remote
 
 import com.cornershop.counterstest.constant.*
 import com.cornershop.counterstest.domain.model.counter.Counter
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface IApiCounter {
     @GET(WS_GET_COUNTERS)
@@ -26,7 +23,7 @@ interface IApiCounter {
         @Body id: Map<String, String>
     ): List<Counter>
 
-    @DELETE(WS_DELETE_COUNTER)
+    @HTTP(method = "DELETE", path = WS_DELETE_COUNTER, hasBody = true)
     suspend fun deleteCounter(
         @Body id: Map<String, String>
     ): List<Counter>

@@ -48,10 +48,10 @@ class CounterViewModel(private val iCounterUseCase: ICounterUseCase) : ViewModel
             }
         }
 
-    fun deleteCounter(id: Map<String, String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO) {
+    fun deleteCounter(idCounterList: List<String>) = liveData<Resource<List<Counter>>>(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(iCounterUseCase.deleteCounter(id = id))
+            emit(iCounterUseCase.deleteCounter(idCounterList = idCounterList))
         } catch (ex: Exception) {
             emit(Resource.Failure(exception = ex))
         }

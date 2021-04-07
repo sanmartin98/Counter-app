@@ -17,8 +17,8 @@ class CounterUseCase(private val iCounterRepository: ICounterRepository) : ICoun
     override suspend fun decrementCounter(id: Map<String, String>): Resource<List<Counter>> =
         iCounterRepository.decrementCounter(id = id)
 
-    override suspend fun deleteCounter(id: Map<String, String>): Resource<List<Counter>> =
-        iCounterRepository.deleteCounter(id = id)
+    override suspend fun deleteCounter(idCounterList: List<String>): Resource<List<Counter>> =
+        iCounterRepository.deleteCounter(idCounterList = idCounterList)
 
     override fun updateCountersLocal(listCounters: List<Counter>) =
         iCounterRepository.updateCountersLocal(listCounters = listCounters)

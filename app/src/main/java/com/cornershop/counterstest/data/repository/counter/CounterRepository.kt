@@ -21,8 +21,8 @@ class CounterRepository(
     override suspend fun decrementCounter(id: Map<String, String>): Resource<List<Counter>> =
         iCounterDataSourceRemote.decrementCounter(id = id)
 
-    override suspend fun deleteCounter(id: Map<String, String>): Resource<List<Counter>> =
-        iCounterDataSourceRemote.deleteCounter(id = id)
+    override suspend fun deleteCounter(idCounterList: List<String>): Resource<List<Counter>> =
+        iCounterDataSourceRemote.deleteCounter(idCounterList = idCounterList)
 
     override fun updateCountersLocal(listCounters: List<Counter>) =
         iCounterDataSourceLocal.updateCountersLocal(listCounters = listCounters)

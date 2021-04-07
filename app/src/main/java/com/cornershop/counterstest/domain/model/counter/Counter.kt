@@ -9,5 +9,5 @@ data class Counter (
     val title: String? = null,
     @SerializedName("count")
     val count: Int? = null,
-    val isSelected: Boolean? = false
+    var isSelected: Boolean? = false
 )

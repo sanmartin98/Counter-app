@@ -21,6 +21,7 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
     fun setCounterList(counterList: List<Counter>) {
         this.counterList.clear()
         this.counterList.addAll(counterList)
+        counterOriginalList.clear()
         counterOriginalList.addAll(this.counterList)
         notifyDataSetChanged()
     }
@@ -37,6 +38,7 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CounterAdapter.ViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {  }
         holder.bind(item = counterList[position])
     }
 
@@ -45,6 +47,7 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RowCounterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Counter) {
             binding.textViewTitleCounter.text = item.title
+            binding.textViewTitleCounter.setOnClickListener { iConnectAdapterModifyCounters.selectCounter(counter = item) }
             if (item.isSelected!!) {
                 binding.imageViewCounterSelected.visibility = View.VISIBLE
                 binding.constraintLayoutModifyCounters.visibility = View.GONE

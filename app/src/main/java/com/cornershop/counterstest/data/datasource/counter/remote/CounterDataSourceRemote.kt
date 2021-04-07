@@ -19,6 +19,6 @@ class CounterDataSourceRemote : ICounterDataSourceRemote {
     override suspend fun decrementCounter(id: Map<String, String>): Resource<List<Counter>> =
         Resource.Success(retrofitInstance.decrementCounter(id = id))
 
-    override suspend fun deleteCounter(id: Map<String, String>): Resource<List<Counter>> =
-        Resource.Success(retrofitInstance.deleteCounter(id = id))
+    override suspend fun deleteCounter(idCounterList: List<String>): Resource<List<Counter>> =
+        Resource.Success(idCounterList.map { retrofitInstance.deleteCounter(id = mapOf("id" to it)) }.last())
 }
