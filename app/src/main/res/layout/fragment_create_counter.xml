@@ -85,11 +85,20 @@
 
         <TextView
             android:id="@+id/text_view_help_create_counter"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_counter_disclaimer"
             android:textColor="@color/gray"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_create_counter_container"/>
 
+        <TextView
+            android:id="@+id/text_view_help_create_counter_examples"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_counter_disclaimer_example"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_create_counter_container"
+            app:layout_constraintStart_toEndOf="@+id/text_view_help_create_counter"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

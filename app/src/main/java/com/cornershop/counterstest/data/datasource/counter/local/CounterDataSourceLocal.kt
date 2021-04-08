@@ -1,6 +1,5 @@
 package com.cornershop.counterstest.data.datasource.counter.local
 
-import com.cornershop.counterstest.data.dataaccess.room.DataBase
 import com.cornershop.counterstest.domain.model.counter.Counter
 import com.cornershop.counterstest.domain.model.counter.CounterEntity
 

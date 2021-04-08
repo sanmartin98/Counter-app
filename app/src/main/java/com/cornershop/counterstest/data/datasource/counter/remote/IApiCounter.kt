@@ -2,7 +2,10 @@ package com.cornershop.counterstest.data.datasource.counter.remote
 
 import com.cornershop.counterstest.constant.*
 import com.cornershop.counterstest.domain.model.counter.Counter
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.HTTP
+import retrofit2.http.POST
 
 interface IApiCounter {
     @GET(WS_GET_COUNTERS)

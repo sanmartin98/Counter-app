@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -83,12 +84,14 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
         counterViewModel.getCounters().observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
+                    lockScreen()
                     binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.VISIBLE
                     binding.constraintLayoutCounters.visibility = View.GONE
                     hideAlertMessageViews()
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Success -> {
+                    unLockScreen()
                     binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                     hideAlertMessageViews()
                     counterViewModel.updateCountersLocal(it.data)
@@ -103,6 +106,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     }
                 }
                 is Resource.Failure -> {
+                    unLockScreen()
                     getCountersLocal()
                 }
             }
@@ -150,14 +154,17 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .observe(viewLifecycleOwner, {
                 when (it) {
                     is Resource.Loading -> {
+                        lockScreen()
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility =
                             View.VISIBLE
                     }
                     is Resource.Success -> {
+                        unLockScreen()
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         updateData(it.data)
                     }
                     is Resource.Failure -> {
+                        unLockScreen()
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         showErrorUpdateCounterAlertDialog(
                             counter.count!! + 1,
@@ -174,14 +181,17 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .observe(viewLifecycleOwner, {
                 when (it) {
                     is Resource.Loading -> {
+                        lockScreen()
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility =
                             View.VISIBLE
                     }
                     is Resource.Success -> {
+                        unLockScreen()
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         updateData(it.data)
                     }
                     is Resource.Failure -> {
+                        unLockScreen()
                         binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                         showErrorUpdateCounterAlertDialog(
                             counter.count!! - 1,
@@ -214,10 +224,12 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
         counterViewModel.deleteCounter(idCounterList = idCountersList).observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
+                    lockScreen()
                     binding.includeProgressBar.relativeLayoutProgressBar.visibility =
                         View.VISIBLE
                 }
                 is Resource.Success -> {
+                    unLockScreen()
                     if (it.data.isEmpty()) {
                         binding.includeLayoutNoCounterYet.constraintLayoutNoCounterYet.visibility =
                             View.VISIBLE
@@ -228,6 +240,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                     binding.constraintLayoutBarSelectedCounter.visibility = View.INVISIBLE
                 }
                 is Resource.Failure -> {
+                    unLockScreen()
                     binding.includeProgressBar.relativeLayoutProgressBar.visibility = View.GONE
                     showErrorDeleteCounterAlertDialog()
                 }
@@ -333,5 +346,16 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             binding.constraintLayoutCounters.visibility = View.VISIBLE
         }
         return false
+    }
+
+    private fun lockScreen() {
+        requireActivity().window.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
+    }
+
+    private fun unLockScreen() {
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 }

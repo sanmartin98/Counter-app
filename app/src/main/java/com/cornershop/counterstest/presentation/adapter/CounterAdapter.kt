@@ -44,6 +44,23 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = counterList.size
 
+    fun filter(strSearch: String): Int {
+        if (strSearch.isEmpty()) {
+            counterList.clear()
+            counterList.addAll(counterOriginalList)
+        } else {
+            counterList.clear()
+            for (i in counterOriginalList) {
+                if (i.title?.toLowerCase(Locale.ROOT)!!.contains(strSearch)) {
+                    counterList.add(i)
+                }
+            }
+
+        }
+        notifyDataSetChanged()
+        return counterList.size
+    }
+
     inner class ViewHolder(val binding: RowCounterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Counter) {
             binding.textViewTitleCounter.text = item.title
@@ -93,22 +110,4 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
             }
         }
     }
-
-    fun filter(strSearch: String): Int {
-        if (strSearch.isEmpty()) {
-            counterList.clear()
-            counterList.addAll(counterOriginalList)
-        } else {
-            counterList.clear()
-            for (i in counterOriginalList) {
-                if (i.title?.toLowerCase(Locale.ROOT)!!.contains(strSearch)) {
-                    counterList.add(i)
-                }
-            }
-
-        }
-        notifyDataSetChanged()
-        return counterList.size
-    }
-
 }
