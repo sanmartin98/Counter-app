@@ -49,8 +49,7 @@
                     android:src="@drawable/ic_less"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/text_view_counter"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/gray" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/text_view_counter"

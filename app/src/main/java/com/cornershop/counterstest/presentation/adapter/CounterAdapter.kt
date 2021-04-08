@@ -1,5 +1,6 @@
 package com.cornershop.counterstest.presentation.adapter
 
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -94,7 +95,7 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
                     ContextCompat.getColor(
                         binding.root.context,
                         R.color.orange
-                    )
+                    ), PorterDuff.Mode.SRC_ATOP
                 )
                 binding.imagaViewLessCounter.setOnClickListener {
                     iConnectAdapterModifyCounters.decreaseCounter(item)
@@ -104,7 +105,7 @@ class CounterAdapter : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
                     ContextCompat.getColor(
                         binding.root.context,
                         R.color.gray
-                    )
+                    ), PorterDuff.Mode.SRC_ATOP
                 )
                 binding.imagaViewLessCounter.setOnClickListener {}
             }
