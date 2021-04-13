@@ -86,7 +86,7 @@ class ExampleCounterFragment : Fragment(), IConnectAdapterExampleCounters {
             .setCancelable(false)
             .setTitle(getString(R.string.error_creating_counter_title))
             .setMessage(getString(R.string.connection_error_description))
-            .setPositiveButton(getString(R.string.ok), null)
+            .setPositiveButton(getString(R.string.ok_alert), null)
 
         val alert = builder.create()
         alert.show()

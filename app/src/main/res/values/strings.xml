@@ -40,7 +40,7 @@
     <string name="generic_error_description">There has been a problem.</string>
     <string name="retry_load_counters">RETRY</string>
     <string name="save">SAVE</string>
-    <string name="ok">OK</string>
+    <string name="ok_alert">OK</string>
     <string name="cancel">Cancel</string>
     <string name="dismiss">DISMISS</string>
     <string name="share">Share</string>

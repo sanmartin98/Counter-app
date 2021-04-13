@@ -296,7 +296,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
                 )
             )
             .setMessage(getString(R.string.connection_error_description))
-            .setPositiveButton(getString(R.string.retry)) { _, _ -> funcRetry(counter) }
+            .setPositiveButton(getString(R.string.retry_load_counters)) { _, _ -> funcRetry(counter) }
             .setNegativeButton(getString(R.string.dismiss), null)
 
         val alert = builder.create()
@@ -313,7 +313,7 @@ class CounterFragment : Fragment(), IConnectAdapterModifyCounters,
             .setCancelable(false)
             .setTitle(getString(R.string.error_deleting_counter_title))
             .setMessage(getString(R.string.connection_error_description))
-            .setPositiveButton(getString(R.string.ok), null)
+            .setPositiveButton(getString(R.string.ok_alert), null)
 
         val alert = builder.create()
         alert.show()
